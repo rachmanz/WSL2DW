@@ -50,7 +50,7 @@ export PDSH_RCMD_TYPE=ssh
 
 12. Selanjutnya dapat melakukaan penginstallan pada hadoop versi: 3.3.6 pada link berikut : [Download disini!](https://hadoop.apache.org/releases.html)
 
-![File Downloader](image.png)
+![File Downloader](/asset/image.png)
 
 - Nb: Kedalam binary dan install secara langsung dengan : `wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz`
 
