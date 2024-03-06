@@ -92,4 +92,4 @@ cp $HADOOP_HOME/share/hadoop/common/lib/guava-27.0-jre.jar $HIVE_HOME/lib/
 
 **Notes : Ikuti baris per baris**
 
-12. kemudian server hive dan apache derby dapat digunakan
+12. kemudian server hive dan apache derby dapat digunakan dengan cara `hive` kan berjalan dengan baik didalam server hadoop.
