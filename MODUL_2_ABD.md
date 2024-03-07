@@ -63,7 +63,7 @@ export CLASSPATH=$CLASSPATH:$DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbytools
 </property>
 ```
 
-8. selanjutnya kita hidupkan server hadoop terlebih dahulu : `start-all.sh`
+8. Selanjutnya kita hidupkan server hadoop terlebih dahulu : `start-all.sh`
 
 9. Kemudian buat beberapa folder dan file yang ada didalam File system hadoop seperti berikut :
 
@@ -74,11 +74,18 @@ hdfs dfs -mkdir /user/hive
 hdfs dfs -mkdir /user/hive/warehouse
 ```
 
-**Notes : Lakukan baris per baris**
+10. Lakukan verifikasi permission didalam untuk folder-folder yang ada didalam hadoop dengan cara :
+
+```bash
+hdfs dfs -chmod ugo+rwx /tmp
+hdfs dfs -chmod ugo+rwx /user/hive/warehouse
+```
+
+**Notes : Lakukan baris per baris dari 2 stw diatas**
 
 **Adding information** : Untuk pengecekan apakah direktori/folder sudah dibuat atau tidak dapat mengetikan `hdfs dfs -ls -R / `
 
-10. Lakukan konfigurasi pada file `hive-site.xml`:
+11. Lakukan konfigurasi pada file `hive-site.xml`:
     > Ganti bagian ini :
 
 ```xml
@@ -112,7 +119,7 @@ Dengan :
 
 Kemudian save dengan `ctrl + s`
 
-11. Konfigurasi metastore Apache Derby dengan :
+12. Konfigurasi metastore Apache Derby dengan :
 
 ```bash
 cd $HIVE_HOME/conf
@@ -129,7 +136,7 @@ Kemudian buka `hive-site.xml` dan cari **xml** tag ini dan sesuaikan :
 </property>
 ```
 
-12. Kemudian kita membuat file dengan nama jpox.properties dengan perintah `nano jpox.properties` kemudian isi dengan script :
+13. Kemudian kita membuat file dengan nama jpox.properties dengan perintah `nano jpox.properties` kemudian isi dengan script :
 
 ```txt
 javax.jdo.PersistenceManagerFactoryClass =
@@ -151,14 +158,7 @@ javax.jdo.option.ConnectionUserName = APP
 javax.jdo.option.ConnectionPassword = mine
 ```
 
-13. Lakukan verifikasi permission didalam untuk folder-folder yang ada didalam hadoop dengan cara :
-
-```bash
-hdfs dfs -chmod ugo+rwx /tmp
-hdfs dfs -chmod ugo+rwx /user/hive/warehouse
-```
-
-11. Guava library issue
+14. Guava library issue
 
 Kita dapat membuang guava yang ada didalam hive dan mengganti agar sama versinya dengan guava yang ada dalam hadoop dengan
 
@@ -169,7 +169,7 @@ cp $HADOOP_HOME/share/hadoop/common/lib/guava-27.0-jre.jar $HIVE_HOME/lib/
 
 **Notes : Ikuti baris per baris**
 
-12. kemudian server hive dan apache derby dapat digunakan dengan cara di terminal :
+15. kemudian server hive dan apache derby dapat digunakan dengan cara di terminal :
 
 ```bash
 cd $HIVE_HOME
@@ -179,3 +179,5 @@ hive --service metastore &
 **Notes :** Ikut baris perbaris.
 
 16. Kemudian balik ke home dan coba dengan ketikan `hive` di terminal dan hive siap dipakai.
+
+> Selesai Modul 2... Alhamdulillah :)
