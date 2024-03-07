@@ -29,12 +29,16 @@ tar -zxvf db-derby-10.14.2.0-bin.tar.gz
 5. Cari konfigurasi dari path hadoop sebelumnya, kemudian dibawahnya ditambahkan skrip berikut :
 
 ```bash
-export HIVE_HOME="/home/miroslav/apache-hive-3.1.2-bin"
-
+export HIVE_HOME=/home/miroslav/hive
 export PATH=$PATH:$HIVE_HOME/bin
+export CLASSPATH=$CLASSPATH:/home/miroslav/Hadoop/lib/*:.
+export CLASSPATH=$CLASSPATH:/home/miroslav/hive/lib/*:.
+export DERBY_HOME=/home/miroslav/derby
+export PATH=$PATH:$DERBY_HOME/bin
+export CLASSPATH=$CLASSPATH:$DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbytools.jar
 ```
 
-**Notes : Ubah bagian "miroslav" dari nama username di dalam unix kalian.** kemdudian save dengan `ctrl + s` setalah itu `crtl + x` untuk keluar.
+**Notes : Ubah bagian "miroslav" dari nama username di dalam unix kalian.** kemdudian save dengan `ctrl + s` setalah itu `crtl + x` untuk keluar. Sebelum ke step selanjutnya veriikasi environment pada wsl dengan `source .bashrc`
 
 6. Kemudian kita kedalam folder dari hadoop : `cd hadoop-3.3.6/etc/hadoop`. Lalu kita cari didalam list filenya `core-site.xml`
 
@@ -42,11 +46,11 @@ export PATH=$PATH:$HIVE_HOME/bin
 
 ```xml
 <property>
-    <name>hadoop.proxyuser.dikshant.groups</name>
+    <name>hadoop.proxyuser.hadoop.groups</name>
     <value>*</value>
 </property>
 <property>
-    <name>hadoop.proxyuser.dikshant.hosts</name>
+    <name>hadoop.proxyuser.hadoop.hosts</name>
     <value>*</value>
 </property>
 <property>
@@ -74,7 +78,80 @@ hdfs dfs -mkdir /user/hive/warehouse
 
 **Adding information** : Untuk pengecekan apakah direktori/folder sudah dibuat atau tidak dapat mengetikan `hdfs dfs -ls -R / `
 
-10. Lakukan permission didalam untuk folder-folder yang ada didalam hadoop dengan cara :
+10. Lakukan konfigurasi pada file `hive-site.xml`:
+    > Ganti bagian ini :
+
+```xml
+<property>
+    <name>hive.exec.local.scratchdir</name>
+    <value>${system:java.io.tmpdir}/${system:user.name}</value>
+<description>Local scratch space for Hive jobs</description>
+</property>
+
+<property>
+    <name>hive.downloaded.resources.dir</name>
+    <value>${system:java.io.tmpdir}/${hive.session.id}_resources</value>
+    <description>Temporary local directory for added resources in the remote file system.</description>
+</property>
+```
+
+Dengan :
+
+```xml
+<property>
+    <name>hive.exec.local.scratchdir</name>
+    <value>/tmp/${user.name}</value>
+    <description>Local scratch space for Hive jobs</description>
+</property>
+<property>
+    <name>hive.downloaded.resources.dir</name>
+    <value>/tmp/${user.name}_resources</value>
+    <description>Temporary local directory for added resources in the remote file system.</description>
+</property>
+```
+
+Kemudian save dengan `ctrl + s`
+
+11. Konfigurasi metastore Apache Derby dengan :
+
+```bash
+cd $HIVE_HOME/conf
+cp hive-default.xml.template hive-site.xml
+```
+
+Kemudian buka `hive-site.xml` dan cari **xml** tag ini dan sesuaikan :
+
+```xml
+<property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:derby://localhost:1527/metastore_db;create=true </value>
+    <description>JDBC connect string for a JDBC metastore </description>
+</property>
+```
+
+12. Kemudian kita membuat file dengan nama jpox.properties dengan perintah `nano jpox.properties` kemudian isi dengan script :
+
+```txt
+javax.jdo.PersistenceManagerFactoryClass =
+
+org.jpox.PersistenceManagerFactoryImpl
+org.jpox.autoCreateSchema = false
+org.jpox.validateTables = false
+org.jpox.validateColumns = false
+org.jpox.validateConstraints = false
+org.jpox.storeManagerType = rdbms
+org.jpox.autoCreateSchema = true
+org.jpox.autoStartMechanismMode = checked
+org.jpox.transactionIsolation = read_committed
+javax.jdo.option.DetachAllOnCommit = true
+javax.jdo.option.NontransactionalRead = true
+javax.jdo.option.ConnectionDriverName = org.apache.derby.jdbc.ClientDriver
+javax.jdo.option.ConnectionURL = jdbc:derby://localhost:1527/metastore_db;create = true
+javax.jdo.option.ConnectionUserName = APP
+javax.jdo.option.ConnectionPassword = mine
+```
+
+13. Lakukan verifikasi permission didalam untuk folder-folder yang ada didalam hadoop dengan cara :
 
 ```bash
 hdfs dfs -chmod ugo+rwx /tmp
@@ -92,4 +169,13 @@ cp $HADOOP_HOME/share/hadoop/common/lib/guava-27.0-jre.jar $HIVE_HOME/lib/
 
 **Notes : Ikuti baris per baris**
 
-12. kemudian server hive dan apache derby dapat digunakan dengan cara `hive` kan berjalan dengan baik didalam server hadoop.
+12. kemudian server hive dan apache derby dapat digunakan dengan cara di terminal :
+
+```bash
+cd $HIVE_HOME
+hive --service metastore &
+```
+
+**Notes :** Ikut baris perbaris.
+
+16. Kemudian balik ke home dan coba dengan ketikan `hive` di terminal dan hive siap dipakai.
