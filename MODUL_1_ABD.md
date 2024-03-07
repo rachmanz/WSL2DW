@@ -1,4 +1,9 @@
-# Instalasi Modul 1 ABD (Apache Hadoop)
+---
+Dates: 28/02/2024
+Author: Abdurrahman Al-atsary
+---
+
+# **Instalasi Modul 1 ABD (Apache Hadoop)**
 
 1. Pertama, pastikan ada WSL didalam windows kalian.
 
