@@ -42,11 +42,11 @@ export PATH=$PATH:$HIVE_HOME/bin
 
 ```xml
 <property>
-    <name>hadoop.proxyuser.dikshant.groups</name>
+    <name>hadoop.proxyuser.miroslav.groups</name>
     <value>*</value>
 </property>
 <property>
-    <name>hadoop.proxyuser.dikshant.hosts</name>
+    <name>hadoop.proxyuser.miroslav.hosts</name>
     <value>*</value>
 </property>
 <property>
