@@ -79,20 +79,24 @@ export PDSH_RCMD_TYPE=ssh
 ```xml
 <configuration>
  <property>
- <name>fs.defaultFS</name>
- <value>hdfs://localhost:9000</value>
+  <name>fs.defaultFS</name>
+  <value>hdfs://localhost:9000</value>
  </property>
  <property>
-<name>hadoop.proxyuser.dataflair.groups</name> <value>*</value>
+  <name>hadoop.proxyuser.hadoop.groups</name>
+  <value>*</value>
  </property>
  <property>
-<name>hadoop.proxyuser.dataflair.hosts</name> <value>*</value>
+  <name>hadoop.proxyuser.hadoop.hosts</name>
+  <value>*</value>
  </property>
  <property>
-<name>hadoop.proxyuser.server.hosts</name> <value>*</value>
+  <name>hadoop.proxyuser.server.hosts</name>
+  <value>*</value>
  </property>
  <property>
-<name>hadoop.proxyuser.server.groups</name> <value>*</value>
+  <name>hadoop.proxyuser.server.groups</name>
+  <value>*</value>
  </property>
 </configuration>
 ```
@@ -113,12 +117,12 @@ export PDSH_RCMD_TYPE=ssh
 ```xml
 <configuration>
  <property>
- <name>mapreduce.framework.name</name>  <value>yarn</value>
+  <name>mapreduce.framework.name</name>
+  <value>yarn</value>
  </property>
  <property>
- <name>mapreduce.application.classpath</name>
-
-<value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
+  <name>mapreduce.application.classpath</name>
+  <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
  </property>
 </configuration>
 ```
@@ -128,13 +132,12 @@ export PDSH_RCMD_TYPE=ssh
 ```xml
 <configuration>
  <property>
- <name>yarn.nodemanager.aux-services</name>
- <value>mapreduce_shuffle</value>
+  <name>yarn.nodemanager.aux-services</name>
+  <value>mapreduce_shuffle</value>
  </property>
  <property>
- <name>yarn.nodemanager.env-whitelist</name>
-
-<value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREP END_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
+  <name>yarn.nodemanager.env-whitelist</name>
+  <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREP END_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
  </property>
 </configuration>
 ```
